@@ -24,25 +24,31 @@ Install
    class Article < ActiveRecord::Base
      can_be_flagged
    end
+   
+   You can also add a callback
+   
+   class Article
+     can_be_flagged
+     def after_flagged
+       # send an email
+       # delete this post
+       # suspend the owner of the post if the flags.size > 3
+       # suspend the owner of the post if their total flags count > 5
+     end
+   end
 
 4. Modify your user model with
  
    class User < ActiveRecord::Base
-     can_flag
-     
+     can_flag     
    end
 
+5. Usage
 
-################## old
+   article = Article.find(4)
+   current_user.flags.create :flaggable => article
 
-== Usage
  
- * Add a flag to a model instance
- 
- model = Model.new
- flag = Flag.new
- flag.flag = 'Some flag'
- model.flags.add_flag flag
 
  * When a flag is added via add_flag, flagged(flag, flag_count) is called
    on the flaggable model.  This allows the model to perform certain

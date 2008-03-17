@@ -101,7 +101,7 @@ class CanFlagGenerator < Rails::Generator::NamedBase
       #  end
       #end
 
-      m.template 'controller.rb',
+      m.template 'simple_controller.rb',
                   File.join('app/controllers',
                             controller_class_path,
                             "#{controller_file_name}_controller.rb")
@@ -118,7 +118,7 @@ class CanFlagGenerator < Rails::Generator::NamedBase
       #            File.join('lib', 'authenticated_test_helper.rb')
 
       if @rspec
-        m.template 'controller_spec.rb',
+        m.template 'simple_controller_spec.rb',
                     File.join('spec/controllers',
                               controller_class_path,
                               "#{controller_file_name}_controller_spec.rb")

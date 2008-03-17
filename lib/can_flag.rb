@@ -4,6 +4,9 @@ module Caboose
     module Flag
       def self.included(base)
         base.extend ClassMethods  
+        if defined?(::ActiveSupport::Callbacks)
+          base.define_callbacks :after_flagged
+        end
       end
 
       module ClassMethods
@@ -21,9 +24,15 @@ module Caboose
         # Limitation for now: you should only allow one model to own flags.
         # This is ridiculously easy to make polymorphic, but no ponies yet.
         def can_flag
-          has_many :flaggables, :foreign_key => "user_id"
+          # has_many :flaggables, :foreign_key => "user_id"
+          # User created these flags
           has_many :flags, :foreign_key => "user_id", :order => "id desc"
-          ::Flag.class_eval "belongs_to :#{name.underscore}"
+          
+          # User was responsible for creating this filth
+          has_many :flagged, :foreign_key => "user_id"
+          
+          # Associate the flag back here
+          ::Flag.class_eval "belongs_to :#{name.underscore}, :foreign_key => :user_id; belongs_to :owner, :foreign_key => :flaggable_user_id, :class_name => '#{name}'"
         end
       end
       

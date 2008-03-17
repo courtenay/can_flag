@@ -1,16 +1,32 @@
 class Flag < ActiveRecord::Base
   # serialize :flag, Symbol
   belongs_to :flaggable, :polymorphic => true
-  
+
+# belongs_to :owner, :through => :flaggable, :class_name => ??
+
   # This is set dynamically in the plugin.
   # define "can_flag" in your user/account model.
   # belongs_to :user
 
   validates_presence_of :flaggable_id, :flaggable_type
+  validates_presence_of :flaggable_user_id, :on => :create
 
   # A user can flag a specific flaggable with a specific flag once
   validates_uniqueness_of :user_id, :scope => [:flaggable_id, :flaggable_type]
+
+  after_create :callback_flaggable
+  def callback_flaggable
+    flaggable.callback :after_flagged
+    #if flaggable && flaggable.respond_to?(:after_flagged)
+    #  flaggable.after_flagged
+    #end
+  end
   
+  before_validation_on_create :set_owner_id
+  def set_owner_id
+    self.flaggable_user_id = flaggable.user_id
+  end
+
   # UNTESTED
   # # Helper class method to lookup all flags assigned
   # # to all flaggable types for a given user.

@@ -13,6 +13,7 @@ ActiveRecord::Schema.define(:version => 0) do
   create_table :flags do |t|
     t.integer :user_id
     t.integer :flaggable_id
-    t.string :flaggable_type
+    t.string  :flaggable_type
+    t.integer :flaggable_user_id
   end
 end

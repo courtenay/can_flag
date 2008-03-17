@@ -36,5 +36,11 @@ public
       format.xml  { render :xml => @flags }
     end
   end    
-    
+   
+   
+  def destroy
+    Flag.find(params[:id]).destroy
+    redirect_to <%= file_name %>_url
+  end
+
 end
