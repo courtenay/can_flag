@@ -1,8 +1,7 @@
-# ActsAsFlaggable
-module Gonzo
-  module Acts #:nodoc:
-    module Flaggable #:nodoc:
-
+# CanFlag
+module Caboose
+  module Can 
+    module Flag
       def self.included(base)
         base.extend ClassMethods  
       end

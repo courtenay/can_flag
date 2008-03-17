@@ -1,3 +1,3 @@
 # Include hook code here
-require 'acts_as_flaggable'
-ActiveRecord::Base.send(:include, Gonzo::Acts::Flaggable)
+require 'can_flag'
+ActiveRecord::Base.send(:include, Caboose::Can::Flag)
