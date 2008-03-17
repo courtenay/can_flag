@@ -27,13 +27,10 @@ public
   end
 
   def index
-    @flags = if current_user.admin?
-      current_user.flags.find(:all)
-      #We suggest 'will_paginate' plugin
-      #@flags = current_user.flags.paginate(:all, :page => params[:page])
-    else
-      Flag.find(:all, :order => "id desc")
-    end
+    @flags = Flag.find(:all, :order => "id desc")
+    #We suggest 'will_paginate' plugin
+    #@flags = Flag.paginate(:all, :page => params[:page])
+
     respond_to do |format|
       format.html {} # index.html.erb
       format.xml  { render :xml => @flags }
