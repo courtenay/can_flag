@@ -5,8 +5,12 @@ class <%= migration_name %> < ActiveRecord::Migration
       t.integer :flaggable_id
       t.string  :flaggable_type
       t.integer :flaggable_user_id
+      t.string  :reason
       t.timestamps
     end
+    # todo: add index on reason
+    # todo: add index on user_id
+    # todo: add index on flaggable_user_id
   end
 
   def self.down

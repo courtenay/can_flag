@@ -8,6 +8,7 @@
       <th>Reporter (flags)</th>
       <th>Link</th>
       <th>Violator</th>
+      <th>Reason</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -18,6 +19,7 @@
       <td><%%=h flag.user.login %> (<%%=h flag.user.flags.size %>)</td>
       <td><%%= link_to h('%s %i' % [flag.flaggable_type, flag.flaggable_id]), flag.flaggable %></td>
       <td><%%= link_to h(flag.owner.login), flag.owner %></td>
+      <td><%%=h flag.reason %></td>
       <td><%%= link_to "Destroy", flag, :method => :delete %></td>
     </tr>
     <%% end %>

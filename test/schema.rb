@@ -15,5 +15,6 @@ ActiveRecord::Schema.define(:version => 0) do
     t.integer :flaggable_id
     t.string  :flaggable_type
     t.integer :flaggable_user_id
+    t.string  :reason
   end
 end

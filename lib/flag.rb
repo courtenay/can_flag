@@ -23,9 +23,19 @@ class Flag < ActiveRecord::Base
   end
   
   before_validation_on_create :set_owner_id
+  #before_validation_on_create :check_reason
+
   def set_owner_id
     self.flaggable_user_id = flaggable.user_id
   end
+  
+  validates_each :reason do |record,attr,value|
+    record.errors.add(attr, "don't include '#{value}' as an option") if value and !record.flaggable.reasons.include?(value.to_sym)
+  end
+  #def check_reason
+  #  errorsraise "Reason Not Accepted" unless flaggable.class.reasons.include?(new_reason.to_sym)
+  #  write_attribute :reason, new_reason
+  #end
 
   # UNTESTED
   # # Helper class method to lookup all flags assigned

@@ -24,4 +24,13 @@ class FlagTest < Test::Unit::TestCase
     flag.save!
     assert_equal 1, flag.flaggable_user_id
   end
+  
+  def test_only_allows_valid_reasons
+    Article.class_eval { can_be_flagged :reasons => [ :foolish ] }
+    article = Article.create :title => "My article", :body => "Five five five", :user_id => 1
+    flag = Flag.create :flaggable => article, :reason => "foolish"
+    assert flag.save!
+    flag.reason = "Monkeys"
+    assert ! flag.save
+  end
 end
