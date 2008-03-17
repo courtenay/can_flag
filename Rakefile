@@ -15,7 +15,7 @@ end
 desc 'Generate documentation for the can_flag plugin.'
 Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title    = 'ActsAsAttachment'
+  rdoc.title    = 'CanFlag'
   rdoc.options << '--line-numbers --inline-source'
   rdoc.rdoc_files.include('README')
   rdoc.rdoc_files.include('lib/**/*.rb')
