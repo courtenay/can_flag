@@ -2,7 +2,9 @@ class Flag < ActiveRecord::Base
   # serialize :flag, Symbol
   belongs_to :flaggable, :polymorphic => true
 
-# belongs_to :owner, :through => :flaggable, :class_name => ??
+  # This line is dynamically generated when you call "can_flag" in your user/account model.
+  # It assumes that content is owned by the same class as flaggers.
+  # belongs_to :owner, :through => :flaggable, :class_name => ??
 
   # This is set dynamically in the plugin.
   # define "can_flag" in your user/account model.
@@ -15,11 +17,9 @@ class Flag < ActiveRecord::Base
   validates_uniqueness_of :user_id, :scope => [:flaggable_id, :flaggable_type]
 
   after_create :callback_flaggable
+  # Pings the 'after_flagged' callback in the content model, if it exists.
   def callback_flaggable
     flaggable.callback :after_flagged
-    #if flaggable && flaggable.respond_to?(:after_flagged)
-    #  flaggable.after_flagged
-    #end
   end
   
   before_validation_on_create :set_owner_id

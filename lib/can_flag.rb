@@ -32,6 +32,8 @@ module Caboose
           has_many :flagged, :foreign_key => "user_id"
           
           # Associate the flag back here
+          # Flag.belongs_to :user
+          # Flag.belongs_to :owner, :foreign_key => flaggable_user_id
           ::Flag.class_eval "belongs_to :#{name.underscore}, :foreign_key => :user_id; belongs_to :owner, :foreign_key => :flaggable_user_id, :class_name => '#{name}'"
         end
       end
