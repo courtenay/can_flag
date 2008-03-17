@@ -6,10 +6,10 @@ class Flag < ActiveRecord::Base
   # define "can_flag" in your user/account model.
   # belongs_to :user
 
-  validates_presence_of :flag
+  validates_presence_of :flaggable_id, :flaggable_type
 
   # A user can flag a specific flaggable with a specific flag once
-  validates_uniqueness_of :user_id, :scope => [:flaggable_id, :flaggable_type, :flag]
+  validates_uniqueness_of :user_id, :scope => [:flaggable_id, :flaggable_type]
   
   # UNTESTED
   # # Helper class method to lookup all flags assigned

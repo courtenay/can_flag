@@ -186,7 +186,7 @@ class CanFlagGenerator < Rails::Generator::NamedBase
         }, :migration_file_name => "create_#{file_path.gsub(/\//, '_').pluralize}"
       end
       
-      m.route_resource  controller_singular_name
+      m.route_resources  controller_plural_name
       # m.route_resources model_controller_plural_name
     end
 
