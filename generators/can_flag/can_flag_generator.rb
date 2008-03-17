@@ -1,5 +1,5 @@
-require 'restful_authentication/rails_commands'
-class FlagGenerator < Rails::Generator::NamedBase
+require 'can_flag/rails_commands'
+class CanFlagGenerator < Rails::Generator::NamedBase
   default_options :skip_migration => false
   #                :include_activation => false
                   
@@ -63,7 +63,7 @@ class FlagGenerator < Rails::Generator::NamedBase
       #                                                "#{model_controller_class_name}Helper"
       #m.class_collisions class_path,                  "#{class_name}", "#{class_name}Mailer", "#{class_name}MailerTest", "#{class_name}Observer"
       #m.class_collisions [], 'AuthenticatedSystem', 'AuthenticatedTestHelper'
-      m.class_collissions [], 'Flag', 'Flaggable'
+      m.class_collisions [], 'Flag', 'Flaggable'
 
       # Controller, helper, views, and test directories.
       #m.directory File.join('app/models', class_path)
@@ -118,7 +118,7 @@ class FlagGenerator < Rails::Generator::NamedBase
       #            File.join('lib', 'authenticated_test_helper.rb')
 
       if @rspec
-        m.template 'functional_spec.rb',
+        m.template 'controller_spec.rb',
                     File.join('spec/controllers',
                               controller_class_path,
                               "#{controller_file_name}_controller_spec.rb")
@@ -187,7 +187,7 @@ class FlagGenerator < Rails::Generator::NamedBase
       end
       
       m.route_resource  controller_singular_name
-      m.route_resources model_controller_plural_name
+      # m.route_resources model_controller_plural_name
     end
 
     action = nil
@@ -197,28 +197,33 @@ class FlagGenerator < Rails::Generator::NamedBase
         puts
         puts ("-" * 70)
         puts "Don't forget to:"
-        puts
-        if options[:include_activation]
-          puts "    map.activate '/activate/:activation_code', :controller => '#{model_controller_file_name}', :action => 'activate'"
-          puts
-          puts "  - add an observer to config/environment.rb"
-          puts "    config.active_record.observers = :#{file_name}_observer"
-          puts
-        end
-        if options[:stateful]
-          puts "Also, don't forget to install the acts_as_state_machine plugin and set your resource:"
-          puts
-          puts "  svn co http://elitists.textdriven.com/svn/plugins/acts_as_state_machine/trunk vendor/plugins/acts_as_state_machine"
-          puts
-          puts %w(map.resources :#{model_controller_file_name}, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete })
-          puts
-        end
-        puts "Try these for some familiar login URLs if you like:"
-        puts
-        puts %(map.activate '/activate/:activation_code', :controller => '#{model_controller_file_name}', :action => 'activate', :activation_code => nil)
-        puts %(map.signup '/signup', :controller => '#{model_controller_file_name}', :action => 'new')
-        puts %(map.login '/login', :controller => '#{controller_file_name}', :action => 'new')
-        puts %(map.logout '/logout', :controller => '#{controller_file_name}', :action => 'destroy')
+        puts " - modify your code:"
+        puts "    include render :partial => 'layouts/flag', :object => @article "
+        puts "   Activate your user model for flagging"
+        puts "    class User < ActiveRecord::Base "
+        puts "      can_flag "
+        puts "    end"
+        #if options[:include_activation]
+        #  puts "    map.activate '/activate/:activation_code', :controller => '#{model_controller_file_name}', :action => 'activate'"
+        #  puts
+        #  puts "  - add an observer to config/environment.rb"
+        #  puts "    config.active_record.observers = :#{file_name}_observer"
+        #  puts
+        #end
+        #if options[:stateful]
+        #  puts "Also, don't forget to install the acts_as_state_machine plugin and set your resource:"
+        #  puts
+        #  puts "  svn co http://elitists.textdriven.com/svn/plugins/acts_as_state_machine/trunk vendor/plugins/acts_as_state_machine"
+        #  puts
+        #  puts %w(map.resources :#{model_controller_file_name}, :member => { :suspend => :put, :unsuspend => :put, :purge => :delete })
+        #  puts
+        #end
+        #puts "Try these for some familiar login URLs if you like:"
+        #puts
+        #puts %(map.activate '/activate/:activation_code', :controller => '#{model_controller_file_name}', :action => 'activate', :activation_code => nil)
+        #puts %(map.signup '/signup', :controller => '#{model_controller_file_name}', :action => 'new')
+        #puts %(map.login '/login', :controller => '#{controller_file_name}', :action => 'new')
+        #puts %(map.logout '/logout', :controller => '#{controller_file_name}', :action => 'destroy')
         puts
         puts ("-" * 70)
         puts
@@ -226,11 +231,11 @@ class FlagGenerator < Rails::Generator::NamedBase
         puts
         puts ("-" * 70)
         puts
-        puts "Thanks for using restful_authentication"
+        puts "Thanks for using can_flag"
         puts
-        puts "Don't forget to comment out the observer line in environment.rb"
-        puts "  (This was optional so it may not even be there)"
-        puts "  # config.active_record.observers = :#{file_name}_observer"
+        #puts "Don't forget to comment out the observer line in environment.rb"
+        #puts "  (This was optional so it may not even be there)"
+        #puts "  # config.active_record.observers = :#{file_name}_observer"
         puts
         puts ("-" * 70)
         puts
@@ -248,7 +253,7 @@ class FlagGenerator < Rails::Generator::NamedBase
   protected
     # Override with your own usage banner.
     def banner
-      "Usage: #{$0} authenticated ModelName [ControllerName]"
+      "Usage: #{$0} can_flag ControllerName\nWe suggest 'flags'"
     end
 
     def add_options!(opt)
@@ -256,10 +261,10 @@ class FlagGenerator < Rails::Generator::NamedBase
       opt.separator 'Options:'
       opt.on("--skip-migration", 
              "Don't generate a migration file for this model") { |v| options[:skip_migration] = v }
-      opt.on("--include-activation", 
-             "Generate signup 'activation code' confirmation via email") { |v| options[:include_activation] = true }
-      opt.on("--stateful", 
-             "Use acts_as_state_machine.  Assumes --include-activation") { |v| options[:include_activation] = options[:stateful] = true }
+      #opt.on("--include-activation", 
+      #       "Generate signup 'activation code' confirmation via email") { |v| options[:include_activation] = true }
+      #opt.on("--stateful", 
+      #       "Use acts_as_state_machine.  Assumes --include-activation") { |v| options[:include_activation] = options[:stateful] = true }
       opt.on("--rspec",
              "Force rspec mode (checks for RAILS_ROOT/spec by default)") { |v| options[:rspec] = true }
     end

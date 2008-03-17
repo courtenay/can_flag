@@ -11,9 +11,13 @@ Install
 1. Download the tarball from github, or, clone the repository and symlink it into your application.
    Yes, I'm serious.
   
-2. $ script/generate flag_migration
-   $ script/generate flag_user_migration
-   $ script/generate flagged_scaffold flag
+2. $ script/generate can_flag flags
+
+   This will create the following files:
+     app/controllers/flags_controller.rb
+     spec/helpers/flags_controller_spec.rb
+     app/helpers/flags_helper
+     db/migrate/flags_migration.rb
 
 3. Modify any content model with  
   
