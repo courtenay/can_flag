@@ -12,11 +12,13 @@ module Caboose
       module ClassMethods
         # Call can_be_flagged from your content model, or from anything
         # you want to flag.
-        def can_be_flagged
+        def can_be_flagged(opts={})
           has_many :flags, :as => :flaggable, :dependent => :destroy
           validates_associated :flags, :message => 'failed to validate'
           include Caboose::Can::Flag::InstanceMethods
           extend  Caboose::Can::Flag::SingletonMethods
+          cattr_accessor :reasons
+          self.reasons = opts[:reasons] || [:inappropriate]
         end
         
         # Call can_flag from your user model, or anything that can own a flagging.
