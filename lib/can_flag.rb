@@ -31,12 +31,13 @@ module Caboose
           has_many :flags, :foreign_key => "user_id", :order => "id desc"
           
           # User was responsible for creating this filth
-          has_many :flagged, :foreign_key => "user_id"
+          has_many :flaggings, :foreign_key => "flaggable_user_id", :class_name => "Flag"
           
           # Associate the flag back here
           # Flag.belongs_to :user
           # Flag.belongs_to :owner, :foreign_key => flaggable_user_id
-          ::Flag.class_eval "belongs_to :#{name.underscore}, :foreign_key => :user_id; belongs_to :owner, :foreign_key => :flaggable_user_id, :class_name => '#{name}'"
+          ::Flag.class_eval "belongs_to :#{name.underscore}, :foreign_key => :user_id; 
+            belongs_to :owner, :foreign_key => :flaggable_user_id, :class_name => '#{name}'"
         end
       end
       
