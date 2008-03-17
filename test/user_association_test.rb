@@ -16,7 +16,9 @@ class UserAssociationTest < Test::Unit::TestCase
       can_flag
     end
     assert_not_nil User.reflect_on_association(:flaggables)
+    assert_equal :has_many, User.reflect_on_association(:flaggables).macro
     assert_not_nil User.reflect_on_association(:flags)
+    assert_equal :has_many, User.reflect_on_association(:flags).macro
   end
   
 end

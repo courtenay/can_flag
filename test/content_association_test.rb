@@ -10,7 +10,11 @@ class ContentAssociationTest < Test::Unit::TestCase
       can_be_flagged
     }
     assert_not_nil Article.reflect_on_association(:flags)
-    assert_not_nil Article.reflect_on_association(:flaggable)
+    assert_equal :has_many, Article.reflect_on_association(:flags).macro, 
+      "Should create the 'flags' association"
+    #assert_not_nil Article.reflect_on_association(:flaggable)
+    #assert_equal :has_many, Article.reflect_on_association(:flaggable).macro, 
+    #  "Should create the 'flaggable' association"
   end
 
 end
