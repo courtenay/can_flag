@@ -169,6 +169,7 @@ class CanFlagGenerator < Rails::Generator::NamedBase
       
       # TODO: shared?
       m.template '_flag.html.erb', File.join('app/views/layouts', '_flag.html.erb')
+      m.template 'index.html.erb', File.join('app/views', controller_class_path, controller_file_name, 'index.html.erb')
       #m.template 'login.html.erb',  File.join('app/views', controller_class_path, controller_file_name, "new.html.erb")
       #m.template 'signup.html.erb', File.join('app/views', model_controller_class_path, model_controller_file_name, "new.html.erb")
 

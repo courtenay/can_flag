@@ -2,9 +2,6 @@
   <%% form_for current_user.flags.build do |f| %>
     <%%= f.hidden_field :flaggable_type, :value => flag.class.name %>
     <%%= f.hidden_field :flaggable_id,   :value => flag.id %>
-    <!-- choose from -->
-    <a href="#" onsubmit="this.form.submit(); return false;" />flag</a>
-    <!-- or -->
     <input type="submit" value="Flag this content as inappropriate" />
   <%% end %>
 <%% else %>

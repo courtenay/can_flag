@@ -1,0 +1,21 @@
+<!-- flags/index -->
+<h1>Flagged Content</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Link</th>
+      <th>Reporter (flags)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%% @flags.each do |flag| %>
+    <tr class="<%%= cycle('alternate','') %>">
+      <td><%%=h flag.created_at.to_s :short %></td>
+      <td><%%= link_to h('%s %i' % [flag.flaggable_type, flag.flaggable_id]), flag.flaggable %></td>
+      <td><%%=h flag.user.login %> (<%%=h flag.user.flags.size %>)</td>
+    </tr>
+    <%% end %>
+  </tbody>
+</table>

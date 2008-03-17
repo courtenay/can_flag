@@ -22,7 +22,7 @@ module Caboose
         # This is ridiculously easy to make polymorphic, but no ponies yet.
         def can_flag
           has_many :flaggables, :foreign_key => "user_id"
-          has_many :flags, :foreign_key => "user_id"
+          has_many :flags, :foreign_key => "user_id", :order => "id desc"
           ::Flag.class_eval "belongs_to :#{name.underscore}"
         end
       end
