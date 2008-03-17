@@ -7,11 +7,23 @@ module Caboose
       end
 
       module ClassMethods
-        def acts_as_flaggable
-          has_many :flags, :as => :flaggable, :dependent => true
+        # Call can_be_flagged from your content model, or from anything
+        # you want to flag.
+        def can_be_flagged
+          has_many :flags, :as => :flaggable, :dependent => :destroy
           validates_associated :flags, :message => 'failed to validate'
-          include Gonzo::Acts::Flaggable::InstanceMethods
-          extend Gonzo::Acts::Flaggable::SingletonMethods
+          include Caboose::Can::Flag::InstanceMethods
+          extend  Caboose::Can::Flag::SingletonMethods
+        end
+        
+        # Call can_flag from your user model, or anything that can own a flagging.
+        # That's a paddlin!
+        # Limitation for now: you should only allow one model to own flags.
+        # This is ridiculously easy to make polymorphic, but no ponies yet.
+        def can_flag
+          has_many :flaggables, :foreign_key => "user_id"
+          has_many :flags, :foreign_key => "user_id"
+          ::Flag.class_eval "belongs_to :#{name.underscore}"
         end
       end
       
@@ -49,7 +61,7 @@ module Caboose
         # with a specific flag
         def user_has_flagged?(user, flag = nil)
           conditions = flag.nil? ? {} : {:flag => flag}
-          conditions.merge! ({:user_id => user.id})
+          conditions.merge!({:user_id => user.id})
           return flags.count(:conditions =>conditions) > 0
         end
         

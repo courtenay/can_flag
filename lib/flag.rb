@@ -1,12 +1,11 @@
 class Flag < ActiveRecord::Base
-  serialize :flag, Symbol
+  # serialize :flag, Symbol
   belongs_to :flaggable, :polymorphic => true
   
-  # NOTE: Flags belong to a user
-  belongs_to :user
+  # belongs_to :user
 
   # A user can flag a specific flaggable with a specific flag once
-  validates_prescence_of :flag
+  validates_presence_of :flag
   validates_uniqueness_of :user_id, :scope => [:flaggable_id, :flaggable_type, :flag]
   
   # Helper class method to lookup all flags assigned

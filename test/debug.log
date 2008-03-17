@@ -1,0 +1,50 @@
+# Logfile created on Sun Mar 16 18:57:35 -0700 2008 by /
+  [4;36;1m (0) (0.000266)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1m (8) (0.000699)[0m   [0mSHOW TABLES[0m
+  [4;36;1mUser Columns (24) (0.136713)[0m   [0;1mSHOW FIELDS FROM `users`[0m
+  [4;35;1m (8) (0.000697)[0m   [0mSHOW TABLES[0m
+  [4;36;1m (8) (0.000635)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1m (8) (0.000517)[0m   [0mSHOW TABLES[0m
+  [4;36;1mTopic Columns (15) (0.038305)[0m   [0;1mSHOW FIELDS FROM `topics`[0m
+  [4;36;1m (0) (0.001295)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1m (8) (0.000494)[0m   [0mSHOW TABLES[0m
+  [4;36;1mUser Columns (24) (0.003329)[0m   [0;1mSHOW FIELDS FROM `users`[0m
+  [4;35;1m (8) (0.000566)[0m   [0mSHOW TABLES[0m
+  [4;36;1m (8) (0.001066)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1m (8) (0.000496)[0m   [0mSHOW TABLES[0m
+  [4;36;1mTopic Columns (15) (0.002405)[0m   [0;1mSHOW FIELDS FROM `topics`[0m
+  [4;36;1m (0) (0.000247)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1m (8) (0.000489)[0m   [0mSHOW TABLES[0m
+  [4;36;1mUser Columns (24) (0.002226)[0m   [0;1mSHOW FIELDS FROM `users`[0m
+  [4;35;1m (8) (0.000374)[0m   [0mSHOW TABLES[0m
+  [4;36;1m (8) (0.000328)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1m (8) (0.000529)[0m   [0mSHOW TABLES[0m
+  [4;36;1mTopic Columns (15) (0.001967)[0m   [0;1mSHOW FIELDS FROM `topics`[0m
+  [4;36;1m (0) (0.003002)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1m (8) (0.000534)[0m   [0mSHOW TABLES[0m
+  [4;36;1mUser Columns (24) (0.002404)[0m   [0;1mSHOW FIELDS FROM `users`[0m
+  [4;35;1m (8) (0.000440)[0m   [0mSHOW TABLES[0m
+  [4;36;1m (8) (0.000353)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1m (8) (0.000387)[0m   [0mSHOW TABLES[0m
+  [4;36;1mTopic Columns (15) (0.001886)[0m   [0;1mSHOW FIELDS FROM `topics`[0m
+  [4;36;1m (0) (0.000518)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1m (8) (0.000500)[0m   [0mSHOW TABLES[0m
+  [4;36;1mUser Columns (24) (0.003389)[0m   [0;1mSHOW FIELDS FROM `users`[0m
+  [4;35;1m (8) (0.000515)[0m   [0mSHOW TABLES[0m
+  [4;36;1m (8) (0.000522)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1m (8) (0.000461)[0m   [0mSHOW TABLES[0m
+  [4;36;1mTopic Columns (15) (0.002289)[0m   [0;1mSHOW FIELDS FROM `topics`[0m
+  [4;36;1m (0) (0.000269)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1m (8) (0.000587)[0m   [0mSHOW TABLES[0m
+  [4;36;1mUser Columns (24) (0.002366)[0m   [0;1mSHOW FIELDS FROM `users`[0m
+  [4;35;1m (8) (0.000367)[0m   [0mSHOW TABLES[0m
+  [4;36;1m (8) (0.000330)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1m (8) (0.000371)[0m   [0mSHOW TABLES[0m
+  [4;36;1mTopic Columns (15) (0.001880)[0m   [0;1mSHOW FIELDS FROM `topics`[0m
+  [4;36;1m (0) (0.000294)[0m   [0;1mSET SQL_AUTO_IS_NULL=0[0m
+  [4;35;1m (8) (0.000556)[0m   [0mSHOW TABLES[0m
+  [4;36;1mUser Columns (24) (0.003295)[0m   [0;1mSHOW FIELDS FROM `users`[0m
+  [4;35;1m (8) (0.000474)[0m   [0mSHOW TABLES[0m
+  [4;36;1m (8) (0.000526)[0m   [0;1mSHOW TABLES[0m
+  [4;35;1m (8) (0.000501)[0m   [0mSHOW TABLES[0m
+  [4;36;1mTopic Columns (15) (0.002379)[0m   [0;1mSHOW FIELDS FROM `topics`[0m
