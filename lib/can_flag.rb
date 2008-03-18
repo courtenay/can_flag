@@ -19,6 +19,7 @@ module Caboose
           extend  Caboose::Can::Flag::SingletonMethods
           cattr_accessor :reasons
           self.reasons = opts[:reasons] || [:inappropriate]
+          (::Flag.flaggable_models ||= []) << self
         end
         
         # Call can_flag from your user model, or anything that can own a flagging.
@@ -32,6 +33,7 @@ module Caboose
           
           # User was responsible for creating this filth
           has_many :flaggings, :foreign_key => "flaggable_user_id", :class_name => "Flag"
+          include CanFlagInstanceMethods
           
           # Associate the flag back here
           # Flag.belongs_to :user
@@ -66,7 +68,15 @@ module Caboose
       #    )
       #  end
       end
-      #
+      
+      module CanFlagInstanceMethods
+        def flagged?(content)
+          logger.warn "Looking for flags with #{content.inspect} #{content.class.name}"
+          ::Flag.find(:first,
+            :conditions => { :flaggable_type => content.class.name, :flaggable_id => content[:id] })
+        end
+      end
+      
       ## This module contains instance methods
       module InstanceMethods
         

@@ -2,6 +2,9 @@ class Flag < ActiveRecord::Base
   # serialize :flag, Symbol
   belongs_to :flaggable, :polymorphic => true
 
+  # This will contain the names of all models that can_be_flagged
+  cattr_accessor :flaggable_models
+  
   # This line is dynamically generated when you call "can_flag" in your user/account model.
   # It assumes that content is owned by the same class as flaggers.
   # belongs_to :owner, :through => :flaggable, :class_name => ??
@@ -11,7 +14,11 @@ class Flag < ActiveRecord::Base
   # belongs_to :user
 
   validates_presence_of :flaggable_id, :flaggable_type
-  validates_presence_of :flaggable_user_id, :on => :create
+
+  # requires all your content to have a user_id.  if not, then
+  validates_presence_of :flaggable_user_id, :on => :create, 
+    # :message => "error - your content must be owned by a user.",
+    :if => Proc.new { |c| c.flaggable and c.flaggable.user_id }
 
   # A user can flag a specific flaggable with a specific flag once
   validates_uniqueness_of :user_id, :scope => [:flaggable_id, :flaggable_type]
