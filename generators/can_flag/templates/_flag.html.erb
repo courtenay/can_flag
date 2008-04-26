@@ -1,4 +1,6 @@
-<%% if logged_in? %>
+<%% if logged_in? and current_user.flagged?(flag) %>
+  <p>You have already flagged this item.</p>
+<%% elsif logged_in? %>
   <%% form_for current_user.flags.build do |form| %>
     <%%= form.hidden_field :flaggable_type, :value => flag.class.name %>
     <%%= form.hidden_field :flaggable_id,   :value => flag.id %>
