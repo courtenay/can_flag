@@ -75,6 +75,11 @@ module Caboose
           ::Flag.find(:first,
             :conditions => { :flaggable_type => content.class.name, :flaggable_id => content[:id] })
         end
+        
+        def flagged_by?(content, user)
+          ::Flag.find(:first,
+            :conditions => { :flaggable_type => content.class.name, :flaggable_id => content[:id], :flaggable_user_id => user.id })
+        end
       end
       
       ## This module contains instance methods
