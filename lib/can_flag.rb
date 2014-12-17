@@ -40,6 +40,7 @@ module Caboose
           # Flag.belongs_to :owner, :foreign_key => flaggable_user_id
           ::Flag.class_eval "belongs_to :#{name.underscore}, :foreign_key => :user_id; 
             belongs_to :owner, :foreign_key => :flaggable_user_id, :class_name => '#{name}'"
+
         end
       end
       
@@ -72,17 +73,23 @@ module Caboose
       module CanFlagInstanceMethods
         def flagged?(content)
           logger.warn "Looking for flags with #{content.inspect} #{content.class.name}"
-          ::Flag.find(:first,
-            :conditions => { :flaggable_type => content.class.name, :flaggable_id => content[:id] })
+          flags.find(:first, :conditions => { :flaggable_type => content.class.name, :flaggable_id => content[:id] })
         end
         
-        def flagged_by?(content, user)
-          ::Flag.find(:first,
-            :conditions => { :flaggable_type => content.class.name, :flaggable_id => content[:id], :flaggable_user_id => user.id })
+        # Fast method to get flagged IDs suitable for displaying in the view in js
+        # Orders by id desc so the array has the most chance of being matched early
+        # This limit is purely for performance reasons.
+        def flagged_ids
+          flags.find :all, :select => "flaggable_id", :order => "id desc", :limit => 500
         end
+        
+        #def flagged_by?(content, user)
+        #  ::Flag.find(:first,
+        #    :conditions => { :flaggable_type => content.class.name, :flaggable_id => content[:id], :flaggable_user_id => user.id })
+        #end
       end
       
-      ## This module contains instance methods
+      ## This module contains instance methods for your content
       module InstanceMethods
         
         def flagged?

@@ -23,13 +23,15 @@ class Flag < ActiveRecord::Base
   # A user can flag a specific flaggable with a specific flag once
   validates_uniqueness_of :user_id, :scope => [:flaggable_id, :flaggable_type]
 
+  scope :by_user, ->(user) { where({:flaggable_user_id => user.id }) }
+
   after_create :callback_flaggable
   # Pings the 'after_flagged' callback in the content model, if it exists.
   def callback_flaggable
-    flaggable.callback :after_flagged
+    flaggable.send :callback, :after_flagged
   end
   
-  before_validation_on_create :set_owner_id
+  before_validation :set_owner_id, on: :create
   def set_owner_id
     self.flaggable_user_id = flaggable.user_id
   end

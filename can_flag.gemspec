@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = %q{can_flag}
-  s.version = "1.0"
+  s.version = "1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Courtenay Gasking"]
@@ -16,6 +16,6 @@ Gem::Specification.new do |s|
   s.summary = %q{Rails plugin to allow users to flag content for review}
   s.test_files = Dir["test/*.rb"]
 
-  s.add_dependency(%q<activesupport>, [">= 2.0.0"])
-  s.add_dependency(%q<activerecord>,  [">= 2.0.0"])
+  s.add_dependency(%q<activesupport>, ["~> 3"])
+  s.add_dependency(%q<activerecord>,  ["~> 3"])
 end

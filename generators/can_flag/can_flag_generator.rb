@@ -255,6 +255,6 @@ class CanFlagGenerator < Rails::Generator::NamedBase
       #opt.on("--stateful", 
       #       "Use acts_as_state_machine.  Assumes --include-activation") { |v| options[:include_activation] = options[:stateful] = true }
       opt.on("--rspec",
-             "Force rspec mode (checks for RAILS_ROOT/spec by default)") { |v| options[:rspec] = true }
+             "Force rspec mode (checks for Rails.root/spec by default)") { |v| options[:rspec] = true }
     end
 end
