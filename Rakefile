@@ -1,15 +1,16 @@
 require 'rake'
 require 'rake/testtask'
-require 'rake/rdoctask'
+require 'rdoc/task'
 
 desc 'Default: run unit tests.'
 task :default => :test
 
 desc 'Test the can_flag plugin.'
 Rake::TestTask.new(:test) do |t|
-  t.libs << 'lib'
-  t.pattern = 'test/**/*_test.rb'
+  t.libs << 'test'
+  t.pattern = 'test/*_test.rb'
   t.verbose = true
+  t.warning = false
 end
 
 desc 'Generate documentation for the can_flag plugin.'

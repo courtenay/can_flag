@@ -1,12 +1,18 @@
 $:.unshift(File.dirname(__FILE__) + '/../lib')
 
 ENV['RAILS_ENV'] = 'test'
-ENV['Rails.root'] ||= '~/dev/oss/altered_beast/' #File.dirname(__FILE__) + '/../../../..'
+# ENV['Rails.root'] ||= '~/dev/oss/altered_beast/' #File.dirname(__FILE__) + '/../../../..'
 
 require 'test/unit'
-require File.expand_path(File.join(ENV['Rails.root'], 'config/environment.rb'))
+require 'rubygems'
+require 'active_record'
+require 'active_support'
+
+require 'can_flag'
+
+# require File.expand_path(File.join(ENV['Rails.root'], 'config/environment.rb'))
 require 'active_record/fixtures'
-require 'action_controller/test_process'
+# require 'action_controller/test_process'
 
 config = YAML::load(IO.read(File.dirname(__FILE__) + '/database.yml'))
 ActiveRecord::Base.logger = Logger.new(File.dirname(__FILE__) + "/debug.log")
@@ -34,7 +40,4 @@ end
 
 ActiveRecord::Base.establish_connection(config[db_adapter])
 
-load(File.dirname(__FILE__) + "/schema.rb")
-
-# Test::Unit::TestCase.fixture_path = File.dirname(__FILE__) + "/fixtures"
-# $LOAD_PATH.unshift(Test::Unit::TestCase.fixture_path)
+# load(File.dirname(__FILE__) + "/schema.rb")
