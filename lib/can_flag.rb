@@ -7,15 +7,15 @@ module Caboose
       extend ActiveSupport::Concern
       
       included do 
-        extend ClassMethods  
-        define_callbacks :after_flagged
+        extend ClassMethods
+        include ActiveSupport::Callbacks
       end
 
       module ClassMethods
         # Call can_be_flagged from your content model, or from anything
         # you want to flag.
         def can_be_flagged(opts={})
-          has_many :flags, :as => :flaggable, :dependent => :destroy
+          has_many :flags, :as => :flaggable, :dependent => :destroy, :class_name => "Caboose::Can::Flag::Flag"
           validates_associated :flags, :message => 'failed to validate'
           include Caboose::Can::Flag::InstanceMethods
           extend  Caboose::Can::Flag::SingletonMethods
@@ -31,17 +31,17 @@ module Caboose
         def can_flag
           # has_many :flaggables, :foreign_key => "user_id"
           # User created these flags
-          has_many :flags, :foreign_key => "user_id", :order => "id desc"
+          has_many :flags, :foreign_key => "user_id", :order => "id desc", :class_name => "Caboose::Can::Flag::Flag"
           
           # User was responsible for creating this filth
-          has_many :flaggings, :foreign_key => "flaggable_user_id", :class_name => "Flag"
+          has_many :flaggings, :foreign_key => "flaggable_user_id", :class_name => "Caboose::Can::Flag::Flag"
           include CanFlagInstanceMethods
           
           # Associate the flag back here
           # Flag.belongs_to :user
           # Flag.belongs_to :owner, :foreign_key => flaggable_user_id
-          Flag.send :belongs_to, ":#{name.underscore}", :foreign_key => :user_id
-          Flag.send :belongs_to, :owner, :foreign_key => :flaggable_user_id, :class_name => name
+          Caboose::Can::Flag::Flag.send :belongs_to, :"#{self.name.underscore}", :foreign_key => :user_id
+          Caboose::Can::Flag::Flag.send :belongs_to, :owner, :foreign_key => :flaggable_user_id, :class_name => self.name
 
         end
       end
@@ -93,6 +93,10 @@ module Caboose
       
       ## This module contains instance methods for your content
       module InstanceMethods
+        
+        # overwrite this to get a callback
+        def after_flagged
+        end
         
         def flagged?
           flags.size > 0

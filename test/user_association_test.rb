@@ -1,18 +1,24 @@
 require File.expand_path(File.join(File.dirname(__FILE__), 'test_helper'))
 
-class User<ActiveRecord::Base; end
+class User < ActiveRecord::Base; end
 
 class UserAssociationTest < Test::Unit::TestCase
   def test_creates_user_association_in_flag
-    assert_nil Flag.reflect_on_association(:user)
+    assert_nil Caboose::Can::Flag::Flag.reflect_on_association(:user)
     User.class_eval do
       can_flag
     end
-    assert_not_nil Flag.reflect_on_association(:user)
+
+    u = User.new
+    assert u.flags.empty?
+
+    f = Caboose::Can::Flag::Flag.new :user => u
+    assert_equal f.user, u
+    assert_not_nil Caboose::Can::Flag::Flag.reflect_on_association(:user)
   end
 end
 
-class User2<ActiveRecord::Base; set_table_name :users; end
+class User2 < ActiveRecord::Base; set_table_name :users; end
 
 class UserFlagAssociationTest < Test::Unit::TestCase
   

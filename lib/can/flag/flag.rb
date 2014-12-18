@@ -30,9 +30,10 @@ module Caboose
         scope :by_user, ->(user) { where({:flaggable_user_id => user.id }) }
 
         after_create :callback_flaggable
+
         # Pings the 'after_flagged' callback in the content model, if it exists.
         def callback_flaggable
-          flaggable.send :callback, :after_flagged
+          flaggable.send :after_flagged
         end
   
         before_validation :set_owner_id, on: :create
