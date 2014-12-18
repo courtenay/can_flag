@@ -2,7 +2,7 @@ module Caboose
   module Can 
     module Flag
       class Flag < ActiveRecord::Base
-        set_class_name 'flags'
+        set_table_name 'flags'
         # serialize :flag, Symbol
         belongs_to :flaggable, :polymorphic => true
 
