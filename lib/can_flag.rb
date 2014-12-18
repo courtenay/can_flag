@@ -1,12 +1,14 @@
 # CanFlag
+require 'can/flag/flag'
+
 module Caboose
   module Can 
     module Flag
-      def self.included(base)
-        base.extend ClassMethods  
-        if defined?(::ActiveSupport::Callbacks)
-          base.define_callbacks :after_flagged
-        end
+      extend ActiveSupport::Concern
+      
+      included do 
+        extend ClassMethods  
+        define_callbacks :after_flagged
       end
 
       module ClassMethods
@@ -19,7 +21,7 @@ module Caboose
           extend  Caboose::Can::Flag::SingletonMethods
           cattr_accessor :reasons
           self.reasons = opts[:reasons] || [:inappropriate]
-          (::Flag.flaggable_models ||= []) << self
+          (Flag.flaggable_models ||= []) << self
         end
         
         # Call can_flag from your user model, or anything that can own a flagging.
@@ -38,8 +40,8 @@ module Caboose
           # Associate the flag back here
           # Flag.belongs_to :user
           # Flag.belongs_to :owner, :foreign_key => flaggable_user_id
-          ::Flag.class_eval "belongs_to :#{name.underscore}, :foreign_key => :user_id; 
-            belongs_to :owner, :foreign_key => :flaggable_user_id, :class_name => '#{name}'"
+          Flag.send :belongs_to, ":#{name.underscore}", :foreign_key => :user_id
+          Flag.send :belongs_to, :owner, :foreign_key => :flaggable_user_id, :class_name => name
 
         end
       end
@@ -145,3 +147,5 @@ module Caboose
     end
   end
 end
+
+ActiveRecord::Base.send(:include, Caboose::Can::Flag)
