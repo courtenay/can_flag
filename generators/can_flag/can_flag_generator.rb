@@ -1,6 +1,8 @@
 module CanFlag
   class Generators
     class CanFlagGenerator < Rails::Generator::NamedBase
+      source_root File.expand_path("../templates", __FILE__) 
+      
       default_options :skip_migration => false
       #                :include_activation => false
                       
