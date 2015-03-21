@@ -2,9 +2,9 @@ module Caboose
   module Can 
     module Flag
       class Flag < ActiveRecord::Base
-        set_table_name 'flags'
+        self.table_name 'flags'
         # serialize :flag, Symbol
-        belongs_to :flaggable, :polymorphic => true
+        belongs_to :flaggable, polymorphic: true
 
         # This will contain the names of all models that can_be_flagged
         cattr_accessor :flaggable_models
@@ -20,7 +20,7 @@ module Caboose
         validates_presence_of :flaggable_id, :flaggable_type
 
         # requires all your content to have a user_id.  if not, then
-        validates_presence_of :flaggable_user_id, :on => :create, 
+        validates_presence_of :flaggable_user_id, on: :create, 
           # :message => "error - your content must be owned by a user.",
           :if => Proc.new { |c| c.flaggable and c.flaggable.user_id }
 
