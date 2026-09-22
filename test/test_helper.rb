@@ -5,6 +5,7 @@ ENV['RAILS_ENV'] = 'test'
 
 require 'test/unit'
 require 'rubygems'
+require 'erb'
 require 'active_record'
 require 'active_support'
 
@@ -14,7 +15,9 @@ require 'can_flag'
 require 'active_record/fixtures'
 # require 'action_controller/test_process'
 
-config = YAML::load(IO.read(File.dirname(__FILE__) + '/database.yml'))
+# ERB so the connection can be pointed at a container or CI service without
+# editing the file: DB=mysql2 DB_HOST=db DB_PASSWORD=secret rake test
+config = YAML::load(ERB.new(IO.read(File.dirname(__FILE__) + '/database.yml')).result)
 ActiveRecord::Base.logger = Logger.new(File.dirname(__FILE__) + "/debug.log")
 
 # Cargo culted from attachment_fu!
@@ -40,4 +43,6 @@ end
 
 ActiveRecord::Base.establish_connection(config[db_adapter])
 
-# load(File.dirname(__FILE__) + "/schema.rb")
+# Nothing else creates these tables, so every test run builds them fresh.
+ActiveRecord::Migration.verbose = false
+load(File.dirname(__FILE__) + "/schema.rb")

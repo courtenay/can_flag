@@ -3,7 +3,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), 'test_helper'))
 class Article < ActiveRecord::Base
 end
 class Content < ActiveRecord::Base
-  set_table_name 'articles' # cheater
+  self.table_name = 'articles' # cheater
 end
 
 class CanBeFlaggedOptionsTest < Test::Unit::TestCase

@@ -16,3 +16,9 @@ mysql:
   :username: rails
   :password:
   :database: can_flag_plugin_test
+mysql2:
+  :adapter: mysql2
+  :host: <%= ENV['DB_HOST'] || 'localhost' %>
+  :username: <%= ENV['DB_USERNAME'] || 'root' %>
+  :password: <%= ENV['DB_PASSWORD'] %>
+  :database: <%= ENV['DB_DATABASE'] || 'can_flag_plugin_test' %>

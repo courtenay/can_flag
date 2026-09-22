@@ -18,7 +18,7 @@ class UserAssociationTest < Test::Unit::TestCase
   end
 end
 
-class User2 < ActiveRecord::Base; set_table_name :users; end
+class User2 < ActiveRecord::Base; self.table_name = 'users'; end
 
 class UserFlagAssociationTest < Test::Unit::TestCase
   

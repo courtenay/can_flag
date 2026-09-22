@@ -17,7 +17,7 @@ module Caboose
         def can_be_flagged(opts={})
           has_many :flags, :as => :flaggable, :dependent => :destroy, :class_name => "Caboose::Can::Flag::Flag"
           validates_associated :flags, :message => 'failed to validate'
-          include Caboose::Can::Flag::InstanceMethods
+          include Caboose::Can::Flag::FlaggableInstanceMethods
           extend  Caboose::Can::Flag::SingletonMethods
           cattr_accessor :reasons
           self.reasons = opts[:reasons] || [:inappropriate]
@@ -75,14 +75,14 @@ module Caboose
       module CanFlagInstanceMethods
         def flagged?(content)
           logger.warn "Looking for flags with #{content.inspect} #{content.class.name}"
-          flags.find(:first, :conditions => { :flaggable_type => content.class.name, :flaggable_id => content[:id] })
+          flags.where(:flaggable_type => content.class.name, :flaggable_id => content[:id]).first
         end
         
         # Fast method to get flagged IDs suitable for displaying in the view in js
         # Orders by id desc so the array has the most chance of being matched early
         # This limit is purely for performance reasons.
         def flagged_ids
-          flags.find :all, :select => "flaggable_id", :order => "id desc", :limit => 500
+          flags.select("flaggable_id").order("id desc").limit(500).to_a
         end
         
         #def flagged_by?(content, user)
@@ -91,8 +91,11 @@ module Caboose
         #end
       end
       
-      ## This module contains instance methods for your content
-      module InstanceMethods
+      ## This module contains instance methods for your content.
+      ## can_be_flagged includes it; it must not be named InstanceMethods,
+      ## or ActiveSupport::Concern would include it automatically into every
+      ## ActiveRecord::Base descendant (deprecated in Rails 3.2, gone in 4.0).
+      module FlaggableInstanceMethods
         
         # overwrite this to get a callback
         def after_flagged
