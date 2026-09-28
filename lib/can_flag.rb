@@ -31,7 +31,12 @@ module Caboose
         def can_flag
           # has_many :flaggables, :foreign_key => "user_id"
           # User created these flags
-          has_many :flags, :foreign_key => "user_id", :order => "id desc", :class_name => "Caboose::Can::Flag::Flag"
+          # Rails 4 takes association ordering as a scope; 3.2 only knows :order.
+          if ActiveRecord::VERSION::MAJOR >= 4
+            has_many :flags, -> { order("id desc") }, :foreign_key => "user_id", :class_name => "Caboose::Can::Flag::Flag"
+          else
+            has_many :flags, :foreign_key => "user_id", :order => "id desc", :class_name => "Caboose::Can::Flag::Flag"
+          end
           
           # User was responsible for creating this filth
           has_many :flaggings, :foreign_key => "flaggable_user_id", :class_name => "Caboose::Can::Flag::Flag"
